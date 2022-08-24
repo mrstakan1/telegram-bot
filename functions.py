@@ -1,5 +1,9 @@
 import requests, lxml
+from config import *
 from bs4 import BeautifulSoup
+from selenium import webdriver                         # Импортируем Веб Драйвер
+from selenium.webdriver.common.by import By           #Импортируем By для использование find_element(s)
+from selenium.webdriver.common.keys import Keys     # Импортируем обработчик нажатия кнопок
 
 def get_ip_info(ip):
     line = ''
@@ -12,7 +16,7 @@ def get_ip_info(ip):
             '[ZIP]': response.get('zip')
         }
         for k, v in data.items():
-            line+= f"<b>{k}: {v}</b>\n"
+            line+= f"<b>{k} : {v}</b>\n"
         return line
     except requests.exceptions.ConnectionError:
         print('<b>[X] Ошибка со стороны сервера</b>')
@@ -49,4 +53,25 @@ def get_crypto_price(ticker):
         return False
 
 def get_video(search):
-    pass
+    # Ссылка на обрабатываемую страницу
+    url = "https://www.youtube.com/results?search_query=" + search
+    
+    try:
+        result = []
+        driver.get(url)
+        videos_list = driver.find_elements(By.ID, 'video-title')
+        for i in range(len(videos_list)):
+            pre_result = {}
+            pre_result["link"] = videos_list[i].get_attribute('href')
+            pre_result["title"] = videos_list[i].get_attribute('title')
+            result.append(pre_result)
+        return result[:5]
+ 
+    except Exception as Ex:          # Проверка на ошибки
+        print(Ex)                    # Вывод ошибок
+        return False
+
+    finally:
+        driver.close()               # Закрытие вкладки
+        driver.quit()                # Выключение драйвера
+    
