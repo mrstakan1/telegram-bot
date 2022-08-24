@@ -1,5 +1,5 @@
-text1 = '''
-Введите название видео, которое хотите найти:
+video_text = '''
+<b>Enter video title: </b>
 '''
 
 crypto_menu_text = '''
