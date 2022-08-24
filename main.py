@@ -1,20 +1,20 @@
-from ast import parse
-from cgitb import reset
+from time import sleep
 import telebot
 from telebot import types
 import keyboard as kb
 from text import *
 from functions import *
 from config import TOKEN
+
 bot = telebot.TeleBot(TOKEN)
 
 #Bot start
-@bot.message_handler(commands=['start', 'старт'])
+@bot.message_handler(commands=['start', 'старт', 'начать'])
 def start_msg(message):
     bot.send_message(
     message.chat.id, 
-    text = 'Здарова, нажми на любую кнопку :)', 
-    reply_markup=kb.main_menu_button,
+    text = 'Hi! Press any button :)', 
+    reply_markup=kb.main_menu,
     parse_mode='html')
     
 @bot.message_handler(content_types=['text'])
@@ -22,10 +22,10 @@ def main_menu(message):
     if message.text == "FIND VIDEO":
         msg = bot.send_message(
             message.chat.id,
-            text = '',
-            reply_markup=kb.main_menu_button,
+            text = video_text,
+            reply_markup=kb.main_menu,
             parse_mode='html')
-        bot.register_next_step_handler('')
+        bot.register_next_step_handler(msg, get_video_title)
             
     elif message.text == "CRYPTO":
         msg = bot.send_message(
@@ -39,7 +39,7 @@ def main_menu(message):
         msg = bot.send_message(
             message.chat.id,
             text = socials,
-            reply_markup=kb.main_menu_button,
+            reply_markup=kb.main_menu,
             parse_mode = 'html')
 
     elif message.text == "IP SCAN":
@@ -52,7 +52,7 @@ def main_menu(message):
 
 def crypto_menu(message):
     if message.text == 'MAIN MENU':
-        msg = bot.send_message(message.chat.id, text = '[x] Welcome to Main Menu!', reply_markup=kb.main_menu_button)
+        msg = bot.send_message(message.chat.id, text = '[x] Welcome to Main Menu!', reply_markup=kb.main_menu)
         bot.register_next_step_handler(msg, main_menu)
 
     elif message.text == 'CRYPTO NEWS':
@@ -90,7 +90,7 @@ def get_crypto_ticker(message):
 
 def get_ip_from_user(message):
     if message.text == 'MAIN MENU':
-        msg = bot.send_message(message.chat.id, text = '[x] Welcome to Main Menu!', reply_markup=kb.main_menu_button)
+        msg = bot.send_message(message.chat.id, text = '[x] Welcome to Main Menu!', reply_markup=kb.main_menu)
         bot.register_next_step_handler(msg, main_menu)
 
     else:
@@ -102,13 +102,26 @@ def get_ip_from_user(message):
         result = get_ip_info(ip)
 
         if result == False:
-            msg = bot.send_message(message.chat.id, text = '[Х] Something went wrong', reply_markup=kb.main_menu_button)
+            msg = bot.send_message(message.chat.id, text = '[Х] Something went wrong', reply_markup=kb.main_menu)
         else:
             msg = bot.send_message(message.chat.id,
             text = result,
             reply_markup=kb.back_to_main_menu,
             parse_mode='html')
         bot.register_next_step_handler(msg, get_ip_from_user)
+
+def get_video_title(message):
+    if message.text == 'MAIN MENU':
+        msg = bot.send_message(message.chat.id, text = '[x] Welcome to Main Menu!', reply_markup=kb.main_menu)
+        bot.register_next_step_handler(msg, main_menu)
+    else:
+        videos_list = get_video(message.text)
+        for video in videos_list:
+            bot.send_message(message.chat.id, text=f'<a href="{video["link"]}"><b>{video["title"]}</b></a>', parse_mode="html")
+        msg = bot.send_message(message.chat.id, text="This is last 5 videos for now!", reply_markup=kb.main_menu)
+        bot.register_next_step_handler(msg, main_menu)
+            
+
 
 
 
