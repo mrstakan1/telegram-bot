@@ -1,20 +1,20 @@
-from selenium import webdriver                         # Импортируем Веб Драйвер
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys     # Импортируем обработчик нажатия кнопок
+from selenium import webdriver                         # import web driver
+from selenium.webdriver.common.by import By           # import by locator
+from selenium.webdriver.common.keys import Keys     #  import button click handler
 #Bot
-TOKEN = '5658028624:AAEHCBcaDE8ozuU1rXe0b9eyVnMYqHturxE'
+TOKEN = '******************************************'
 
 #SELENIUM
-# Настройки драйвера
+# Driver settings
 options = webdriver.ChromeOptions()
 
-# Добавляем User-Agent в настройки
+# Adding User-Agent in options
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36")
 # Фоновый режим
 options.add_argument("--headless") 
-# Отключаем режим Веб Драйвера
+#Disabling web driver mode
 options.add_argument("--disable-blink-features=AutomationControlled")
-#Отключаем ошибки сертификатов
+# Disabling cerficiate errors
 options.add_argument('--ignore-certificate-errors-spki-list')
 options.add_argument('--ignore-certificate-errors')
 
