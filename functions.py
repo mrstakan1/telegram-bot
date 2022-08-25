@@ -53,6 +53,9 @@ def get_crypto_price(ticker):
         return False
 
 def get_video(search):
+    # Создание Веб Драйвера, устанавливаем настройки
+    driver = webdriver.Chrome(options=options)   
+
     # Ссылка на обрабатываемую страницу
     url = "https://www.youtube.com/results?search_query=" + search
     

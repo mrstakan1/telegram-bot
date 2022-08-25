@@ -14,13 +14,9 @@ options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Apple
 options.add_argument("--headless") 
 # Отключаем режим Веб Драйвера
 options.add_argument("--disable-blink-features=AutomationControlled")
+#Отключаем ошибки сертификатов
+options.add_argument('--ignore-certificate-errors-spki-list')
+options.add_argument('--ignore-certificate-errors')
 
 # Подавление Getting Default Adapter failed
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
-
-# Создание Веб Драйвера
-driver = webdriver.Chrome()
-#     executable_path="C:\\VS_PROJ\\TeleBot\\chromedriver.exe",   # Указываем путь до драйвера
-#     options=options   # Устанавливаем настройки
-#     )
-
