@@ -74,4 +74,7 @@ def get_video(search):
     finally:
         driver.close()               # Закрытие вкладки
         driver.quit()                # Выключение драйвера
-    
+
+
+def test_git():
+    pass

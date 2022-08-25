@@ -1,6 +1,6 @@
 from telebot import types
 
-#Main menu buttons
+#Main menu buttons 
 main_menu = types.ReplyKeyboardMarkup(resize_keyboard=True)
 main_menu.row("DEVELOPER")
 main_menu.row('IP SCAN', 'FIND VIDEO', "CRYPTO")
